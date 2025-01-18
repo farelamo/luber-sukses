@@ -8,7 +8,7 @@ use Exception;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Http\Requests\ProductRequest;
-// use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +50,7 @@ class productController extends Controller
                         //     });
                         // })
                         ->orderBy($request->sort, $asc ? 'asc' : 'desc')
-                        ->paginate(10);
+                        ->paginate($request->page_limit ? $request->page_limit : 10);
 
         return new ProductCollection($products);
     }
@@ -120,8 +120,8 @@ class productController extends Controller
         }
     }
 
-    public function update(ProductRequest $request, $id) {
-
+    public function update(Request $request, Product $product) {
+            return response()->json($request);
             $updateData = [
                 'title' => $request->title,
                 'subtitle' => $request->subtitle,

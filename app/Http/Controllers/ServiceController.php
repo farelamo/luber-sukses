@@ -50,7 +50,7 @@ class ServiceController extends Controller
                         //     });
                         // })
                         ->orderBy($request->sort, $asc ? 'asc' : 'desc')
-                        ->paginate(10);
+                        ->paginate($request->page_limit ? $request->page_limit : 10);
 
         return new ServiceCollection($services);
     }
