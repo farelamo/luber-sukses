@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('subtitle');
             $table->string('slug');
+            $table->boolean('is_carousel')->default(false);
             $table->text('image');
             $table->text('desc');
         });

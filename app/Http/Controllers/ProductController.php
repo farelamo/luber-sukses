@@ -43,6 +43,9 @@ class productController extends Controller
                             $q->where('title', 'like', '%'.$request->search.'%');
                             $q->orWhere('subtitle', 'like', '%'.$request->search.'%');
                         })
+                        ->when($request->is_carousel, function($q) use ($request){
+                            $q->where('is_carousel', $request->is_carousel);
+                        })
                         // ->when($request->categories, function($q) use ($request){
                         //     $q->whereHas('categories', function($q) use ($request){
                         //         $request->categories = explode(',', $request->categories);
@@ -90,10 +93,10 @@ class productController extends Controller
             //     array_push($categoryIds, $item['id']);
             // }
 
-            // if ($request->is_carousel == 1){
-            //     $carousel = product::where('is_carousel', true)->get();
-            //     if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
-            // }
+            if ($request->is_carousel == 1){
+                $carousel = product::where('is_carousel', true)->get();
+                if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
+            }
             
             $create = [
                 'title' => $request->title,
@@ -121,51 +124,51 @@ class productController extends Controller
     }
 
     public function update(Request $request, Product $product) {
-            return response()->json($request);
-            $updateData = [
-                'title' => $request->title,
-                'subtitle' => $request->subtitle,
-                'slug' => $request->slug,
-                'desc' => $request->desc,
+
+        $updateData = [
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'slug' => $request->slug,
+            'desc' => $request->desc,
+        ];
+
+        if($request->hasFile('image')){
+
+            $rules = [
+                'image' => 'mimes:jpg,png,jpeg|max:5048',
             ];
 
-            if($request->hasFile('image')){
+            Validator::make($request->all(), $rules, $messages = 
+            [
+                'image.mimes' => 'gambar harus berupa jpg, png atau jpeg',
+                'image.max'   => 'maximum gambar adalah 5 MB',
+            ])->validate();
 
-                $rules = [
-                    'image' => 'mimes:jpg,png,jpeg|max:5048',
-                ];
+            $imageFile      = $request->file('image');
+            $image          = time() . '-' . $imageFile->getClientOriginalName();
+            Storage::putFileAs('public/images/product', $imageFile, $image);
 
-                Validator::make($request->all(), $rules, $messages = 
-                [
-                    'image.mimes' => 'gambar harus berupa jpg, png atau jpeg',
-                    'image.max'   => 'maximum gambar adalah 5 MB',
-                ])->validate();
+            $updateData['image'] = $image;
+        }
+    
+        $product = Product::select('id', 'title')->where('id', $id)->first();
+        if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
-                $imageFile      = $request->file('image');
-                $image          = time() . '-' . $imageFile->getClientOriginalName();
-                Storage::putFileAs('public/images/product', $imageFile, $image);
+        if ($request->is_carousel == 1){
+            $carousel = product::where('is_carousel', true)->get();
+            if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
+        }
 
-                $updateData['image'] = $image;
-            }
-        
-            $product = Product::select('id', 'title')->where('id', $id)->first();
-            if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
+        // $ids = explode(',', $request->categories);
+        // $categories = productCategory::select('id')->whereIn('id', $ids)->get()->toArray();
+        // if (count($categories) <= 0) return $this->returnCondition(false, 404, 'category not found');
 
-            // if ($request->is_carousel == 1){
-            //     $carousel = product::where('is_carousel', true)->get();
-            //     if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
-            // }
+        // $categoryIds = [];
+        // foreach ($categories as $item) {
+        //     array_push($categoryIds, $item['id']);
+        // }
 
-            // $ids = explode(',', $request->categories);
-            // $categories = productCategory::select('id')->whereIn('id', $ids)->get()->toArray();
-            // if (count($categories) <= 0) return $this->returnCondition(false, 404, 'category not found');
-
-            // $categoryIds = [];
-            // foreach ($categories as $item) {
-            //     array_push($categoryIds, $item['id']);
-            // }
-
-            $oriImage = $product->image;
+        $oriImage = $product->image;
 
         try {
 
