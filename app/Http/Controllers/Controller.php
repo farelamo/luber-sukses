@@ -10,11 +10,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function handleSort($sortingBy){
+    public function handleSort($sortingBy, $filterable){
 
         if (empty($sortingBy)) return false;
 
-        $filterable = ["id", "title", "subtitle", "created_at", "updated_at"];
+        if (len($filterable) == 0) :
+            $filterable = ["id", "title", "subtitle", "created_at", "updated_at"];
+        endif;
         
         return in_array($sortingBy, $filterable);
     }

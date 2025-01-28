@@ -16,6 +16,7 @@ class ProductFactory extends Factory
             'subtitle' => implode(' ', $faker->words(3)),
             'slug' => $faker->word() . '-' . $faker->word(),
             // 'image' => $faker->imageUrl(640, 480, 'animals', true),
+            'category' => $faker->randomElement([1, 2, 3]),
             'image' => '',
             'desc' => implode("\n\n", $faker->paragraphs(4)),
         ];

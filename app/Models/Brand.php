@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Brand extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['title', 'subtitle', 'slug', 'category_id', 'desc', 'image', 'description'];
+    protected $fillable = ['title', 'image', 'is_show', 'created_at', 'updated_at'];
 }

@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->softDeletes();
             $table->string('title');
-            $table->string('subtitle');
-            $table->string('slug');
-            $table->boolean('is_carousel')->default(false);
             $table->text('image');
-            $table->text('desc');
+            $table->boolean('is_show')->default(true);
         });
     }
 
@@ -29,9 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('brands', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('brands');
     }
 };

@@ -38,13 +38,16 @@ class productController extends Controller
         }
         $request->sort = $this->handleSort($request->sort) ? $request->sort : 'id';
 
-        $products = Product::select('id', 'title', 'subtitle', 'slug','image', 'desc', 'created_at', 'updated_at')
+        $products = Product::select('id', 'title', 'subtitle', 'slug', 'category_id', 'image', 'desc', 'created_at', 'updated_at')
                         ->when($request->search, function($q) use ($request) {
                             $q->where('title', 'like', '%'.$request->search.'%');
                             $q->orWhere('subtitle', 'like', '%'.$request->search.'%');
                         })
-                        ->when($request->is_carousel, function($q) use ($request){
-                            $q->where('is_carousel', $request->is_carousel);
+                        // ->when($request->is_carousel, function($q) use ($request){
+                        //     $q->where('is_carousel', $request->is_carousel);
+                        // })
+                        ->when($request->category_id, function($q) use ($request){
+                           $q->Where('category_id', $request->category_id);
                         })
                         // ->when($request->categories, function($q) use ($request){
                         //     $q->whereHas('categories', function($q) use ($request){
@@ -59,7 +62,7 @@ class productController extends Controller
     }
 
     public function show($id){
-        $product = Product::select('id', 'title', 'subtitle', 'slug','image', 'desc', 'created_at', 'updated_at')
+        $product = Product::select('id', 'title', 'subtitle', 'slug', 'category_id', 'image', 'desc', 'created_at', 'updated_at')
                         ->where('id', $id)->first();
         if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
@@ -93,15 +96,16 @@ class productController extends Controller
             //     array_push($categoryIds, $item['id']);
             // }
 
-            if ($request->is_carousel == 1){
-                $carousel = product::where('is_carousel', true)->get();
-                if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
-            }
+            // if ($request->is_carousel == 1){
+            //     $carousel = product::where('is_carousel', true)->get();
+            //     if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
+            // }
             
             $create = [
                 'title' => $request->title,
                 'subtitle' => $request->subtitle,
                 'slug' => $request->slug,
+                'category_id' => $request->category_id,
                 'image' => $image,
                 'desc' => $request->desc,
             ];
@@ -128,6 +132,7 @@ class productController extends Controller
         $updateData = [
             'title' => $request->title,
             'subtitle' => $request->subtitle,
+            'category_id' => $request->category_id,
             'slug' => $request->slug,
             'desc' => $request->desc,
         ];
@@ -154,10 +159,10 @@ class productController extends Controller
         $product = Product::select('id', 'title')->where('id', $id)->first();
         if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
-        if ($request->is_carousel == 1){
-            $carousel = product::where('is_carousel', true)->get();
-            if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
-        }
+        // if ($request->is_carousel == 1){
+        //     $carousel = product::where('is_carousel', true)->get();
+        //     if (count($carousel) >= 3) return $this->returnCondition(false, 404, 'maximal product carousel adalah 3');
+        // }
 
         // $ids = explode(',', $request->categories);
         // $categories = productCategory::select('id')->whereIn('id', $ids)->get()->toArray();
@@ -200,16 +205,16 @@ class productController extends Controller
             $product = Product::select('id', 'title', 'image')->where('id', $id)->first();
             if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
-            $productImage = $product->image;
+            // $productImage = $product->image;
 
             // $product->categories()->detach();
             $product->delete();
 
-            if($productImage){
-                if(Storage::disk('local')->exists('public/images/product' . $productImage)){
-                    Storage::delete('public/images/product' . $productImage);
-                }
-            }
+            // if($productImage){
+            //     if(Storage::disk('local')->exists('public/images/product' . $productImage)){
+            //         Storage::delete('public/images/product' . $productImage);
+            //     }
+            // }
 
             return $this->returnCondition(true, 200, 'Successfully deleted data');
         }catch(Exception $e){
