@@ -20,7 +20,7 @@ class ProductCollection extends ResourceCollection
                     'slug' => $data->slug,
                     'image' => $data->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('public/images/product/' . $data->image) : null,
                     'desc' => $data->desc,
-                    'category_id' => int($data->category_id),
+                    'category_id' => $data->category_id,
                     // 'categories' => $data->categories->map(function($cat){
                     //     return [
                     //         'id' => $cat->id,
