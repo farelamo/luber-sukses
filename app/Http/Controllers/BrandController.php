@@ -32,7 +32,6 @@ class BrandController extends Controller
         $brands = Brand::select('id', 'title', 'image', 'is_show', 'created_at', 'updated_at')
                         ->when($request->search, function($q) use ($request) {
                             $q->where('title', 'like', '%'.$request->search.'%');
-                            $q->orWhere('subtitle', 'like', '%'.$request->search.'%');
                         })
                         ->when($request->is_show, function($q) use ($request){
                             $q->where('is_show', $request->is_show);

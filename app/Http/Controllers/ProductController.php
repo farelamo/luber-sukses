@@ -14,7 +14,7 @@ use App\Http\Resources\Product\ProductResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-class productController extends Controller
+class ProductController extends Controller
 {
     public function __construct(){
         $this->middleware('auth:api')->except(['index', 'show']);

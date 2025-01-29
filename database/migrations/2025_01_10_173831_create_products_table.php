@@ -17,6 +17,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('title');
             $table->string('subtitle');
+            $table->unsignedBigInteger('category_id');
             $table->string('slug');
             $table->boolean('is_carousel')->default(false);
             $table->text('image');
