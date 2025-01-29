@@ -36,7 +36,7 @@ class ProductController extends Controller
             $asc = false;
             $request->sort = substr($request->sort, 1);
         }
-        $request->sort = $this->handleSort($request->sort) ? $request->sort : 'id';
+        $request->sort = $this->handleSort($request->sort, []) ? $request->sort : 'id';
 
         $products = Product::select('id', 'title', 'subtitle', 'slug', 'category_id', 'image', 'desc', 'created_at', 'updated_at')
                         ->when($request->search, function($q) use ($request) {

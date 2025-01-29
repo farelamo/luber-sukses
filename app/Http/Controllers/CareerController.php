@@ -36,7 +36,7 @@ class CareerController extends Controller
             $asc = false;
             $request->sort = substr($request->sort, 1);
         }
-        $request->sort = $this->handleSort($request->sort) ? $request->sort : 'id';
+        $request->sort = $this->handleSort($request->sort, null) ? $request->sort : 'id';
 
         
         $careers = Career::select('id', 'title', 'job_open', 'job_closed', 'desc', 'created_at', 'updated_at')
