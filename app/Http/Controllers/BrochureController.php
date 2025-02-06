@@ -14,7 +14,7 @@ use App\Http\Resources\Brochure\BrochureResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-class BrocuhereController extends Controller
+class BrochureController extends Controller
 {
     public function __construct(){
         $this->middleware('auth:api')->except(['index', 'show']);
