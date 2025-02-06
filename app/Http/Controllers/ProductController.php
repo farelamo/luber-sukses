@@ -158,7 +158,7 @@ class ProductController extends Controller
             $updateData['image'] = $image;
         }
     
-        $product = Product::select('id', 'title')->where('id', $id)->first();
+        $product = Product::select('id', 'title')->where('id', $product->id)->first();
         if(!$product) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
         // if ($request->is_carousel == 1){

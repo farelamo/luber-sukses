@@ -112,7 +112,7 @@ class BrochureController extends Controller
             $updateData['file'] = $pdfFile;
         }
     
-        $brochure = Brochure::select('id', 'title')->where('id', $id)->first();
+        $brochure = Brochure::select('id', 'title')->where('id', $brochure->id)->first();
         if(!$brochure) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
         $oriImage = $brochure->file;

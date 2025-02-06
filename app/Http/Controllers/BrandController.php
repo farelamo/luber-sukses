@@ -112,7 +112,7 @@ class BrandController extends Controller
             $updateData['image'] = $image;
         }
     
-        $brand = Brand::select('id', 'title')->where('id', $id)->first();
+        $brand = Brand::select('id', 'title')->where('id', $brand->id)->first();
         if(!$brand) return $this->returnCondition(false, 404, 'data tidak ditemukan');
 
         $oriImage = $brand->image;
