@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Brochure;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BrochureResource extends JsonResource

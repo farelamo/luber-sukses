@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Brand;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BrandResource extends JsonResource
