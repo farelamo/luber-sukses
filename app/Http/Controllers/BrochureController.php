@@ -30,7 +30,7 @@ class BrochureController extends Controller
         $request->sort = $this->handleSort($request->sort, ['id', 'title', 'is_choosen', 'created_at', 'updated_at']) ? $request->sort : 'id';
 
         $brocuhers = Brochure::select('id', 'title', 'is_choosen', 'file', 'created_at', 'updated_at')
-                        ->where($request->search, function($q) use ($request) {
+                        ->where(function($q) use ($request) {
                             if ($request->search) $q->where('title', 'like', '%'.$request->search.'%');
                             if ($request->is_choosen !== null) $q->where('is_choosen', $request->is_choosen);
                         })
