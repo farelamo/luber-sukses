@@ -30,11 +30,9 @@ class BrandController extends Controller
         $request->sort = $this->handleSort($request->sort, ['id', 'title', 'created_at', 'updated_at', 'is_show']) ? $request->sort : 'id';
 
         $brands = Brand::select('id', 'title', 'image', 'is_show', 'created_at', 'updated_at')
-                        ->when($request->search, function($q) use ($request) {
-                            $q->where('title', 'like', '%'.$request->search.'%');
-                        })
-                        ->when($request->is_show, function($q) use ($request){
-                            $q->where('is_show', $request->is_show);
+                        ->where(function($q) use ($request) {
+                            if ($request->search) $q->where('title', 'like', '%'.$request->search.'%');
+                            if ($request->is_show !== null) $q->where('is_show', $request->is_show);
                         })
                         ->orderBy($request->sort, $asc ? 'asc' : 'desc')
                         ->paginate($request->page_limit ? $request->page_limit : 10);

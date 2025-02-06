@@ -40,8 +40,10 @@ class ProductController extends Controller
 
         $products = Product::select('id', 'title', 'subtitle', 'slug', 'category_id', 'image', 'desc', 'created_at', 'updated_at')
                         ->when($request->search, function($q) use ($request) {
-                            $q->where('title', 'like', '%'.$request->search.'%');
-                            $q->orWhere('subtitle', 'like', '%'.$request->search.'%');
+                            $q->where(function($q) use ($request) {
+                                $q->where('title', 'like', '%'.$request->search.'%')
+                                    ->orWhere('subtitle', 'like', '%'.$request->search.'%');
+                            });
                         })
                         // ->when($request->is_carousel, function($q) use ($request){
                         //     $q->where('is_carousel', $request->is_carousel);
