@@ -51,13 +51,13 @@ class BrochureController extends Controller
     public function store(BrochureRequest $request) {
         
         $rules = [
-            'file' => 'required|mimes:pdf|max:5048',
+            'file' => 'required|mimetypes:application/pdf|max:5048',
         ];
 
         Validator::make($request->all(), $rules, $messages = 
         [
             'file.required' => 'File harus diisi',
-            'file.mimes'    => 'File harus berupa pdf',
+            'file.mimetypes:application/pdf' => 'File harus berupa pdf',
             'file.max'      => 'Maximum file adalah 5 MB',
         ])->validate();
         
