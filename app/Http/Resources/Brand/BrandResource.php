@@ -15,7 +15,7 @@ class BrandResource extends JsonResource
             'data' => [
                 'id' => $this->id,
                 'title' => $this->title,
-                'image' => $this->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('images/brand/' . $this->image) : null,
+                'image' => $this->image != "" ? env('APP_URL') . Storage::url('images/brand/' . $this->image) : null,
                 'is_show' => $this->is_show,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
