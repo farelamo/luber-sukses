@@ -108,7 +108,7 @@ class BrochureController extends Controller
         if($request->hasFile('file')){
 
             $rules = [
-                'file' => 'mimes:application/pdf|max:5048',
+                'file' => 'mimes:pdf|max:5048',
             ];
 
             Validator::make($request->all(), $rules, $messages = 
