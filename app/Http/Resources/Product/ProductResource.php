@@ -17,7 +17,7 @@ class ProductResource extends JsonResource
                 'title' => $this->title,
                 'subtitle' => $this->subtitle,
                 'slug' => $this->slug,
-                'image' => $this->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('public/images/product/' . $this->image) : null,
+                'image' => $this->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('images/product/' . $this->image) : null,
                 'desc' => $this->desc,
                 'category_id' => $this->category_id,
                 // 'categories' => $this->categories->map(function($cat){

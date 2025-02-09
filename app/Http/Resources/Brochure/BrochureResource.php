@@ -15,7 +15,7 @@ class BrochureResource extends JsonResource
             'data' => [
                 'id' => $this->id,
                 'title' => $this->title,
-                'file' => $this->file != "" ? env('APP_URL', 'localhost:8000') . Storage::url('public/pdf/brochure/' . $this->file) : null,
+                'file' => $this->file != "" ? env('APP_URL', 'localhost:8000') . Storage::url('pdf/brochure/' . $this->file) : null,
                 'is_choosen' => $this->is_choosen,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,

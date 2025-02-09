@@ -17,7 +17,7 @@ class ServiceResource extends JsonResource
                 'title' => $this->title,
                 'subtitle' => $this->subtitle,
                 'slug' => $this->slug,
-                'image' => $this->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('public/images/service/' . $this->image) : null,
+                'image' => $this->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('images/service/' . $this->image) : null,
                 'desc' => $this->desc,
                 // 'is_carousel' => $this->is_carousel,
                 // 'categories' => $this->categories->map(function($cat){

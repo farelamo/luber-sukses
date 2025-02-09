@@ -16,7 +16,7 @@ class BrandCollection extends ResourceCollection
                 return [
                     'id' => $data->id,
                     'title' => $data->title,
-                    'image' => $data->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('public/images/brand/' . $data->image) : null,
+                    'image' => $data->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('images/brand/' . $data->image) : null,
                     'is_show' => $data->is_show,
                     'created_at' => $data->created_at,
                     'updated_at' => $data->updated_at,
