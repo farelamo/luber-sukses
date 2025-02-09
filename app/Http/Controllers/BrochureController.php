@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use DB;
 use Exception;
 use App\Models\Brochure;
 use App\Models\BrochureCategory;
@@ -63,6 +64,12 @@ class BrochureController extends Controller
         ])->validate();
         
         try {
+            
+            DB::beginTransaction();
+
+            if ($request->is_choosen == "1"){
+                Brochure::where('is_choosen', 1)->update(['is_choosen' => 0]);
+            }
 
             $file    = $request->file('file');
             $pdfFile = time() . '-' . $file->getClientOriginalName();
@@ -77,8 +84,10 @@ class BrochureController extends Controller
 
             Storage::putFileAs('public/pdf/brochure', $file, $pdfFile);
 
+            DB::commit();
             return $this->returnCondition(true, 200, 'Successfully created data');
         }catch(Exception $e){
+            DB::rollBack();
             if(Storage::disk('local')->exists('public/pdf/brochure' . $pdfFile)){
                 Storage::delete('public/pdf/brochure' . $pdfFile);
             }
@@ -120,6 +129,10 @@ class BrochureController extends Controller
         $oriImage = $brochure->file;
 
         try {
+            DB::beginTransaction();
+            if ($request->is_choosen == "1"){
+                Brochure::where('is_choosen', 1)->update(['is_choosen' => 0]);
+            }
 
             $brochure->update($updateData);
         
@@ -130,8 +143,11 @@ class BrochureController extends Controller
                     }
                 }
             }
+
+            DB::commit();
             return $this->returnCondition(true, 200, 'Successfully updated data');
         }catch(Exception $e){
+            DB::rollBack();
             Log::error($e->getMessage());
             if($request->hasFile('file')){
                 if(Storage::disk('local')->exists('public/pdf/brochure' . $pdfFile)){
