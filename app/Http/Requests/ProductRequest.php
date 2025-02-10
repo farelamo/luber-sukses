@@ -15,8 +15,8 @@ class ProductRequest extends FormRequest
     {
         return [
             'title' => 'required|min:5|max:50',
-            'subtitle' => 'required|min:5|max:30',
-            'slug' => 'required|min:5|max:30',
+            'subtitle' => 'required|min:5|max:80',
+            'slug' => 'required|min:5|max:80',
             'desc' => 'required|min:5',
         ];
     }
@@ -33,8 +33,8 @@ class ProductRequest extends FormRequest
             'slug.min' => 'slug minimal 5 karakter',
             'desc.min' => 'deskripsi minimal 5 karakter',
             'title.max' => 'judul maksimal 50 karakter',
-            'subtitle.max' => 'sub judul maksimal 30 karakter',
-            'slug.max' => 'slug maksimal 30 karakter',
+            'subtitle.max' => 'sub judul maksimal 80 karakter',
+            'slug.max' => 'slug maksimal 80 karakter',
         ];
     }
 }
