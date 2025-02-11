@@ -16,7 +16,7 @@ class BrochureCollection extends ResourceCollection
                 return [
                     'id' => $data->id,
                     'title' => $data->title,
-                    'file' => $data->file != "" ? env('APP_URL', 'localhost:8000') . Storage::url('pdf/brochure/' . $data->file) : null,
+                    'file' => $data->file != "" ? env('APP_URL', 'https://api.luber-sukses.com') . Storage::url('pdf/brochure/' . $data->file) : null,
                     'is_choosen' => $data->is_choosen,
                     'created_at' => $data->created_at,
                     'updated_at' => $data->updated_at,

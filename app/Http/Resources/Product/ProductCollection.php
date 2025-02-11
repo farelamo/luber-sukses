@@ -18,7 +18,7 @@ class ProductCollection extends ResourceCollection
                     'title' => $data->title,
                     'subtitle' => $data->subtitle,
                     'slug' => $data->slug,
-                    'image' => $data->image != "" ? env('APP_URL', 'localhost:8000') . Storage::url('images/product/' . $data->image) : null,
+                    'image' => $data->image != "" ? env('APP_URL', 'https://api.luber-sukses.com') . Storage::url('images/product/' . $data->image) : null,
                     'desc' => $data->desc,
                     'category_id' => $data->category_id,
                     // 'categories' => $data->categories->map(function($cat){
